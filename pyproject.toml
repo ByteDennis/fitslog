@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fitlog"
+dynamic = ["version"]
+description = "Automatic version management and logging for ML experiments"
+requires-python = ">=3.8"
+dependencies = [
+    "gitpython",
+    "flask",
+    "werkzeug",
+    "docopt",
+    "requests",
+    "numpy",
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "fitlog.version.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["."]
