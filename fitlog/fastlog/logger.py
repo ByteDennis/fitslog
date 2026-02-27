@@ -746,7 +746,7 @@ def _parse_value(value: Union[int, str, float, dict], name: str, parent_name: st
     elif isinstance(value, int):
         value = int(value)
     elif isinstance(value, float):
-        value = float(value)
+        value = float(value) if not(math.isnan(value) and math.isinf(value)) else str(value)
     else:
         value = str(value)  # 直接专为str类型
         assert name is not None, f"When value is `{type(value)}`, you must pass a name."
@@ -772,7 +772,7 @@ def _check_dict_value(_dict: dict, prefix: str = ''):
     keys = list(_dict.keys())
     for key in keys:
         value = _dict[key]
-        if isinstance(value, str) or value is None:
+        if isinstance(value, ( str)) or value is None:
             continue
         elif isinstance(value, dict):
             _check_dict_value(value, prefix=prefix + ':' + key)
@@ -791,12 +791,12 @@ def _check_dict_value(_dict: dict, prefix: str = ''):
                 _dict[key] = value.reshape(1)[0]
             else:
                 _dict[key] = str(value.tolist())
-        elif isinstance(value, bool):
+        elif isinstance(value, (bool, bool)):
             _dict[key] = bool(value)
-        elif isinstance(value, int):
+        elif isinstance(value, (int, int)):
             _dict[key] = int(value)
-        elif isinstance(value, float):
-            _dict[key] = float(value)
+        elif isinstance(value, (float, float)):
+            _dict[key] = float(value) if not (math.isnan(value) and math.isinf(value)) else str(value)    
         else:
             _dict[key] = str(value)
 
